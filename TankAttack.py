@@ -8,9 +8,18 @@ Created on Tue May  1 09:32:34 2018
 import pygame
 import helpers as TA
 
+#Initial parameter setup
+filer=open('options.csv', 'r',newline = '')
+x_dim = filer.readline()
+print(x_dim)
+y_dim = filer.readline()
+gravity = filer.readline()
+drag = filer.readline()
+filer.close()
 
 print("Welcome to Tank Attack!")
 
+#Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     start = input("To begin, type play. To change parameters type options.")
 
@@ -19,20 +28,19 @@ while(True):
         break
         
     if start[-1].lower() == 'o':
-        options = True;
-        break
+        TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag)
+        filer=open('options.csv', 'r',newline = '')
+        x_dim = filer.readline()
+        print(x_dim)
+        y_dim = filer.readline()
+        gravity = filer.readline()
+        drag = filer.readline()
+        filer.close()
 
-filer=open('options.csv', 'r')
-x_dim = filer.readline()
-y_dim = filer.readline()
-gravity = filer.readline()
-drag = filer.readline()
-filer.close()
-
+        
 
 if options == True:
-    filew = open('options.csv', 'w')
-    
+    TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag)
     
 field = (300, 500)
 screen = pygame.display.set_mode(field)

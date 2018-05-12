@@ -13,9 +13,7 @@ print("Welcome to Tank Attack!")
 
 while(True):
     start = input("To begin, type play. To change parameters type options.")
-    if start == "mike":
-        print("You found the easter egg! Now fuck off!")
-        exit()
+
     if start[-1].lower() == 'p':
         options = False;
         break
@@ -29,10 +27,12 @@ x_dim = filer.readline()
 y_dim = filer.readline()
 gravity = filer.readline()
 drag = filer.readline()
+filer.close()
 
 
 if options == True:
-    print("This will be added later")
+    filew = open('options.csv', 'w')
+    
     
 field = (300, 500)
 screen = pygame.display.set_mode(field)

@@ -19,12 +19,24 @@ filer.close()
 
 print("Welcome to Tank Attack!")
 
+
+def hit():
+    return False
+
+def init():
+    i = rd.random()*240
+    return i
+
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     start = input("To begin, type play. To change parameters type options.")
 
     if start[-1].lower() == 'p':
         options = False;
+        while hit() == False:
+            angle = float(input("Enter the angle."))
+            velocity = float(input("Enter the velocity."))
+        
         break
         
     if start[-1].lower() == 'o':

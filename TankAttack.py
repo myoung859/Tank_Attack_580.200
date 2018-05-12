@@ -6,6 +6,7 @@ Created on Tue May  1 09:32:34 2018
 """
 
 import pygame
+import random as rd
 import helpers as TA
 
 #Initial parameter setup

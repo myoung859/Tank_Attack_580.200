@@ -72,7 +72,7 @@ while(True):
                 velocity = float(input("Enter the velocity."))
                 if p == 1:
                     bar_p1 = pygame.transform.rotate(bar_p1, angle)
-                elif p == 2:
+                if p == 2:
                     bar_p2 = pygame.transform.rotate(bar_p2, angle)
                 shoot(velocity, angle)
             elif (opt[-1].lower() == 'b'):
@@ -84,12 +84,12 @@ while(True):
                     elif dir == 'R':
                         p1[0] = p1[0] + 10
                         
-                elif p == 2:
+                if p == 2:
                     if dir == 'L':
-                        p1[0] = p1[0] - 10
+                        p2[0] = p2[0] - 10
                     elif dir == 'R':
                         p2[0] = p2[0] + 10
-                        
+
             sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
             if p == 1:
                 p = 2

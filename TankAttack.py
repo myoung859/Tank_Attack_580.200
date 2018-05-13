@@ -83,15 +83,15 @@ while(True):
                 
                 if p == 1:
                     if dir == 'L':
-                        p1[0] = p1[0] - 10
+                        p1[0] = p1[0] - 5
                     elif dir == 'R':
-                        p1[0] = p1[0] + 10
+                        p1[0] = p1[0] + 5
                         
                 if p == 2:
                     if dir == 'L':
-                        p2[0] = p2[0] - 10
+                        p2[0] = p2[0] - 5
                     elif dir == 'R':
-                        p2[0] = p2[0] + 10
+                        p2[0] = p2[0] + 5
             #Update
             sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
             if p == 1:

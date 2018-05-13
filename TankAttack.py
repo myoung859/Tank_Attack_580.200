@@ -61,8 +61,8 @@ while(True):
         while hit() == False:
             sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
             print("Player " + str(p))
-            print("If you want to move your tank 50 meters back. Press A.")
-            print("If you want to fire a shell from your tank, Press B.")
+            print("If you want to fire a shell from your tank, Press A.")
+            print("If you want to move your tank 50 meters back. Press B.")
             opt = str(input())
 
             if (opt[-1].lower() == 'a'):
@@ -71,11 +71,14 @@ while(True):
                 angle = float(input("Enter the angle."))
                 velocity = float(input("Enter the velocity."))
                 if p == 1:
+                    #rotate green tank turret
                     bar_p1 = pygame.transform.rotate(bar_p1, angle)
                 if p == 2:
+                    #rotate red tank turret
                     bar_p2 = pygame.transform.rotate(bar_p2, angle)
                 shoot(velocity, angle)
             elif (opt[-1].lower() == 'b'):
+                #Option to move left or right 50 m (10 pixels)
                 dir = input("Move To The Left or Right? Type a letter. (L/R)")
                 
                 if p == 1:
@@ -89,7 +92,7 @@ while(True):
                         p2[0] = p2[0] - 10
                     elif dir == 'R':
                         p2[0] = p2[0] + 10
-
+            #Update
             sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
             if p == 1:
                 p = 2

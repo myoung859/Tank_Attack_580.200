@@ -32,7 +32,7 @@ class Tank(pygame.sprite.Sprite):
         dist = 666 #Hail santa!
         while (dist > 50 or dist <= -50):
             dist = int(input("Please enter the distance (positive or negative) to move, up to 50 meters: "))
-        self.rect.left = self.rect.x + (5* dist) #Inspired by https://bit.ly/2KkNOp8
+        self.rect.left = self.rect.x + (2.5* dist) #Inspired by https://bit.ly/2KkNOp8
         if (self.rect.left < 0):
             self.rect.left = 0
         if (self.rect.right > self.x_max):
@@ -71,8 +71,8 @@ class Shell(pygame.sprite.Sprite):
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x - v_wind)/self.mass)*dt)
         self.v_x = self.v_x - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
-        dx = int((self.v_x * dt*5))
-        dy = int((self.v_y * dt*5))
+        dx = int((self.v_x * dt*2.5))
+        dy = int((self.v_y * dt*2.5))
         print(dx)
         print(dy)
         self.rect.move(dx,dy)

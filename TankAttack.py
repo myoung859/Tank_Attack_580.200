@@ -51,21 +51,21 @@ p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     show(p1,p2)
-    start = input("To begin, type p. To change parameters type o.")
+    start = input("To begin, type P. To change parameters type O.")
 
     if start[-1].lower() == 'p':
         p = 1
 
         while hit() == False:
             print("Player " + str(p))
-            print("If you want to fire a shell from your tank, Press A.")
-            print("If you want to move your tank 50 meters back. Press B.")
+            print("If you want to fire a shell from your tank, Press F.")
+            print("If you want to move your tank 50 meters back. Press M.")
             opt = str(input())
 
-            if (opt[-1].lower() == 'a'):
+            if (opt[-1].lower() == 'f'):
                 fire()
                 hit()
-            elif (opt[-1].lower() == 'b'):
+            elif (opt[-1].lower() == 'm'):
                 if p == 1:
                     p1.move()
                 elif p == 2:

@@ -1,103 +1,86 @@
 import pygame
 import random as rd
-import helpers as TA
+from helpers import Tank
 
 #Initial parameter setup
 filer=open('options.csv', 'r',newline = '')
-x_dim = int(filer.readline())
-y_dim = int(filer.readline())
+x_dim = 500
+y_dim = 500
 gravity = float(filer.readline())
 drag = float(filer.readline())
 wind_max = float(filer.readline())
 filer.close()
 
 pygame.init()
-
 field = [x_dim, y_dim]
-screen = pygame.display.set_mode(field)
+
 pygame.display.set_caption("Tank Attack")
 
 print("Welcome to Tank Attack!")
 
+def show(p1, p2):
+    screen = pygame.display.set_mode(field)
+    screen.fill([0,0,156])
+    pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
+    screen.blit(p1.showtank(), (p1.position(),y_dim-85))
+    screen.blit(p2.showtank(), (p2.position(),y_dim-85))
+    pygame.display.flip()
+    return
+
 def hit():
     return False
 
-def sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim):
-    pygame.display.set_mode((x_dim,y_dim))
-    screen.fill([0,0,255])
-    pygame.draw.rect(screen, [139,69,19],[0,y_dim-50,x_dim,500], 0)
-    pygame.draw.circle(screen,p1[1],(p1[0]+20,230),10, 0)
-    pygame.draw.rect(screen,p1[1],[p1[0],230,40,20], 0)
-    screen.blit(bar_p1, (p1[0], 225))
-    screen.blit(bar_p2, (p2[0], 225))
-    pygame.draw.circle(screen,p2[1],(p2[0] + 20,230),10, 0)
-    pygame.draw.rect(screen,p2[1],[p2[0],230,40,20], 0)
-    pygame.display.flip()
+def initalized(x_dim):
+    i = int(rd.random()*x_dim)
 
-def shoot(velocity, angle):
-    return
-
-def initalized():
-    i = int(rd.random()*500)
-
-    if i > 450:
+    if i > (x_dim - 50):
         i = i - 50
     elif i < 50:
         i = i + 50
     return i
 
-p1 = [initalized(), [0,255,0],1]
-p2 = [initalized(), [255,0,0],2]
-bar_p1 = pygame.image.load('p1_tankbarrel.png')
-bar_p2 = pygame.image.load('p2_tankbarrel.png')
+def fire():
+    return
+
+ip1 = initalized(x_dim)
+ip2 = initalized(x_dim)
+
+p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
+p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
+    show(p1,p2)
     start = input("To begin, type play. To change parameters type options.")
 
     if start[-1].lower() == 'p':
         p = 1
 
         while hit() == False:
-            sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
             print("Player " + str(p))
             print("If you want to fire a shell from your tank, Press A.")
             print("If you want to move your tank 50 meters back. Press B.")
             opt = str(input())
 
             if (opt[-1].lower() == 'a'):
-                options = False;
-                # Grab angle and velocity values
-                angle = float(input("Enter the angle."))
-                velocity = float(input("Enter the velocity."))
-                if p == 1:
-                    #rotate green tank turret
-                    bar_p1 = pygame.transform.rotate(bar_p1, angle)
-                if p == 2:
-                    #rotate red tank turret
-                    bar_p2 = pygame.transform.rotate(bar_p2, angle)
-                shoot(velocity, angle)
+                fire()
+                hit()
             elif (opt[-1].lower() == 'b'):
-                #Option to move left or right 50 m (10 pixels)
-                dir = input("Move To The Left or Right? Type a letter. (L/R)")
-                
                 if p == 1:
-                    if dir == 'L':
-                        p1[0] = p1[0] - 5
-                    elif dir == 'R':
-                        p1[0] = p1[0] + 5
-                        
-                if p == 2:
-                    if dir == 'L':
-                        p2[0] = p2[0] - 5
-                    elif dir == 'R':
-                        p2[0] = p2[0] + 5
-            #Update
-            sho(p1,p2,bar_p1,bar_p2, x_dim, y_dim)
+                    p1.move()
+                elif p == 2:
+                    p2.move()
+
+            show(p1,p2)
             if p == 1:
                 p = 2
             elif p == 2:
                 p = 1
+
+        if hit() == True:
+            print("Congratulations, Player " + str(p) +".")
+            print("You totally annihilated the other player.")
+
         break
         
     if start[-1].lower() == 'o':

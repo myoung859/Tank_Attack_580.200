@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue May  1 10:17:05 2018
+Created on Sun May 13 17:35:38 2018
 
-@author: myoun
+@author: Mike
 """
-import csv
 import pygame
-
-def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
-
-    filew = open(filename, 'w',newline = '')
-    output = csv.writer(filew)
-    output.writerow([int(input("Please input the horizontal window size (Current value is "+ str(x_dim) +"): "))])
-    output.writerow([int(input("Please input the vertical window size (Current value is "+ str(y_dim) +"): "))])
-    output.writerow([float(input("Please input the gravity strength (Current value is "+ str(gravity) +"): "))])
-    output.writerow([float(input("Please input the drag constant (Current value is "+ str(drag) +"): "))])
-    output.writerow([float(input("Please input the maximum wind speec (Current value is "+ str(drag) +"): "))])
+from math import radians,sin,cos
 
 class Tank(pygame.sprite.Sprite):
     def __init__(self, pos_x, x_dim, y_dim, color, player):
@@ -51,4 +41,28 @@ class Turret(pygame.sprite.Sprite):
         self.image.set_colorkey([0,0,0])
     def update(self):
         self.rect.x = self.associated.rect.x
+class Shell(pygame.sprite.Sprite):
+    def __init__(self, v_0, angle, Tank):
+        super().__init__()
+        self.image = pygame.Surface([100, 100])
+        self.image.fill([0, 255, 0])
+        self.rect = self.image.get_rect()
+        self.Tank = Tank
+        self.rect.center = (self.Tank.rect.centerx, self.Tank.rect.centery - 6)        
+        self.player = getattr(self.Tank, 'player')
+        self.v_x = cos(radians(angle)) * v_0
+        self.v_y = sin(radians(angle)) * v_0
+        self.mass = 10
+        
+    def Fire(self,drag,v_wind, gravity,dt):
+
+
+        #Calculates real-time change in velocity, then moves the shell that much
+        self.v_x = self.v_x - ((drag*(self.v_x - v_wind)/self.mass)*dt)
+        self.v_x = self.v_x - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
+        dx = int((self.v_x * dt*5))
+        dy = int((self.v_y * dt*5))
+        print(dx)
+        print(dy)
+        self.rect.move(dx,dy)
     

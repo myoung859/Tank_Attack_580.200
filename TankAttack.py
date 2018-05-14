@@ -50,28 +50,38 @@ p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
+    start = input("To play the games, type P. To get options for parameters type O.")
     show(p1,p2)
-    start = input("To begin, type P. To change parameters type O.")
+    pygame.display.flip()
 
     if start[-1].lower() == 'p':
         p = 1
+        show(p1,p2)
+        pygame.display.flip()
 
         while hit() == False:
+            show(p1,p2)
+            pygame.display.flip()
             print("Player " + str(p))
-            print("If you want to fire a shell from your tank, press F.")
-            print("If you want to move your tank 50 meters back, press M.")
+            print("If you want to fire a shell from your tank, Press A.")
+            print("If you want to move your tank 50 meters back. Press B.")
             opt = str(input())
 
-            if (opt[-1].lower() == 'f'):
-                fire()
-                hit()
-            elif (opt[-1].lower() == 'm'):
+            if (opt[-1].lower() == 'a'):
+                v_0 = float(input("Input his initial velocity: "))
+                angle = float(input("Input the angle of your shot: "))
+                if p == 1:
+                    shot = Shell(v_0, angle, p1)
+                elif p == 2:
+                    shot = Shell(v_0, angle, p2)
+            elif (opt[-1].lower() == 'b'):
                 if p == 1:
                     p1.move()
                 elif p == 2:
                     p2.move()
 
             show(p1,p2)
+            pygame.display.flip()
             if p == 1:
                 p = 2
             elif p == 2:

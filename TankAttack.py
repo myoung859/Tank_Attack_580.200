@@ -58,8 +58,8 @@ while(True):
 
         while hit() == False:
             print("Player " + str(p))
-            print("If you want to fire a shell from your tank, Press F.")
-            print("If you want to move your tank 50 meters back. Press M.")
+            print("If you want to fire a shell from your tank, press F.")
+            print("If you want to move your tank 50 meters back, press M.")
             opt = str(input())
 
             if (opt[-1].lower() == 'f'):

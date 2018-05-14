@@ -51,7 +51,7 @@ p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     show(p1,p2)
-    start = input("To begin, type play. To change parameters type options.")
+    start = input("To begin, type p. To change parameters type o.")
 
     if start[-1].lower() == 'p':
         p = 1

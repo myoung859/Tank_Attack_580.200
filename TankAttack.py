@@ -50,8 +50,8 @@ def fire():
 ip1 = initalized(x_dim)
 ip2 = initalized(x_dim)
 
-p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
-p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png', gravity, wind_max, drag)
+p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png', gravity, wind_max, drag)
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):

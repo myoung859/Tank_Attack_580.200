@@ -58,6 +58,8 @@ while(True):
         p = 1
         show(p1,p2)
         pygame.display.flip()
+        
+        print('Player 1 is red, and Player 2 is green.')
 
         while hit() == False:
             show(p1,p2)
@@ -68,7 +70,7 @@ while(True):
             opt = str(input())
 
             if (opt[-1].lower() == 'f'):
-                v_0 = float(input("Input his initial velocity: "))
+                v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot: "))
                 if p == 1:
                     shot = Shell(v_0, angle, p1)

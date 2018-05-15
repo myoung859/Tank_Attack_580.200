@@ -26,6 +26,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (pos_x, y_dim-63)
         self.posx = pos_x
+        self.posy = y_dim-63
         self.player = player
         self.x_max = x_dim
     def move(self):
@@ -66,7 +67,7 @@ class Turret(pygame.sprite.Sprite):
     def update(self):
         self.rect.x = self.associated.rect.x
 class Shell(pygame.sprite.Sprite):
-    def __init__(self, v_0, angle, Tank,x_pos,y_pos):
+    def __init__(self, v_0, angle, Tank):
         super().__init__()
         self.image = pygame.Surface([100, 100])
         self.image.fill([0, 255, 0])
@@ -77,8 +78,8 @@ class Shell(pygame.sprite.Sprite):
         self.v_x = cos(radians(angle)) * v_0
         self.v_y = sin(radians(angle)) * v_0
         self.mass = 10
-        self.x_pos=x_pos
-        self.y_pos=y_pos
+        self.x_pos=self.Tank.posx
+        self.y_pos=self.Tank.posy
         a=random.random()
         b=random.random()
         windy=b*wind_max
@@ -88,14 +89,14 @@ class Shell(pygame.sprite.Sprite):
         else:
             v_wind=windy*-1
             print('The wind is blowing %.2f mph to the left.'%windy)
-        while self.y_pos>0 and self.x_pos>0 and self.x_pos<x_dim:
+        while self.y_pos>0 and self.x_pos>0 and self.x_pos<self.x_max:
             Fire(drag, v_wind, gravity, dt)
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
-        self.x_pos=self.x_pos+dt*self.v_x
+        self.x_pox=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
         return self.rect.move(self.x_pos,self.y_pos)
         #dx = int((self.v_x * dt*2.5))

@@ -7,6 +7,7 @@ Created on Sun May 13 17:35:38 2018
 import pygame
 from math import radians,sin,cos
 import csv
+import random
 
 def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
 
@@ -76,10 +77,19 @@ class Shell(pygame.sprite.Sprite):
         self.v_x = cos(radians(angle)) * v_0
         self.v_y = sin(radians(angle)) * v_0
         self.mass = 10
+        a=random.random()
+        b=random.random()
+        windy=b*wind_max
+        if a<0.5:
+            v_wind=windy
+            print('The wind is blowing '+str(windy)+'mph to the right.')
+        else:
+            v_wind=windy*-1
+            print('The wind is blowing '+str(windy)+'mph to the left.')
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much
-        self.v_x = self.v_x - ((drag*(self.v_x - v_wind)/self.mass)*dt)
+        self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_x = self.v_x - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
         dx = int((self.v_x * dt*2.5))
         dy = int((self.v_y * dt*2.5))

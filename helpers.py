@@ -82,10 +82,10 @@ class Shell(pygame.sprite.Sprite):
         windy=b*wind_max
         if a<0.5:
             v_wind=windy
-            print('The wind is blowing '+str(windy)+'mph to the right.')
+            print('The wind is blowing %.2f mph to the right.'%windy)
         else:
             v_wind=windy*-1
-            print('The wind is blowing '+str(windy)+'mph to the left.')
+            print('The wind is blowing %.2f mph to the left.'%windy)
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much

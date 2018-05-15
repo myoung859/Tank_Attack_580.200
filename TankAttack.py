@@ -4,8 +4,8 @@ from helpers import Tank
 
 #Initial parameter setup
 filer=open('options.csv', 'r',newline = '')
-x_dim = 500
-y_dim = 500
+x_dim = int(filer.readline())
+y_dim = int(filer.readline())
 gravity = float(filer.readline())
 drag = float(filer.readline())
 wind_max = float(filer.readline())

@@ -66,8 +66,6 @@ class Shell(pygame.sprite.Sprite):
         self.mass = 10
         
     def Fire(self,drag,v_wind, gravity,dt):
-
-
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x - v_wind)/self.mass)*dt)
         self.v_x = self.v_x - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
@@ -75,5 +73,5 @@ class Shell(pygame.sprite.Sprite):
         dy = int((self.v_y * dt*2.5))
         print(dx)
         print(dy)
-        self.rect.move(dx,dy)
+        return self.rect.move(dx,dy)
     

@@ -19,25 +19,37 @@ def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
     output.writerow([float(input("Please input the maximum wind speec (Current value is "+ str(drag) +"): "))])
 
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, pos_x, x_dim, y_dim, color, player):
+    def __init__(self, pos_x, x_dim, y_dim, player, img):
         super().__init__()
-        self.color = color
-        self.image = pygame.Surface((25, 13))
-        self.image.fill(color)
+        self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
         self.rect.center = (pos_x, y_dim-63)
+        self.posx = pos_x
         self.player = player
         self.x_max = x_dim
     def move(self):
-        dist = 666 #Hail santa!
+        dist = 516
         while (dist > 50 or dist <= -50):
-            dist = int(input("Please enter the distance (positive or negative) to move, up to 50 meters: "))
-        self.rect.left = self.rect.x + (2.5* dist) #Inspired by https://bit.ly/2KkNOp8
-        if (self.rect.left < 0):
-            self.rect.left = 0
-        if (self.rect.right > self.x_max):
-            self.rect.right = self.x_max
-            
+            dist = int(input("Please enter the distance (positive-RIGHT or negative-LEFT) to move, up to 50 meters: "))
+        self.posx = self.posx + int(2.5*dist) #Inspired by https://bit.ly/2KkNOp8
+        if (self.posx <= 20):
+            self.posx = 0
+            print("You can't get out of this one.")
+        if (self.posx >= self.x_max - 20):
+            self.posx = self.x_max
+            print("You can't get out of this one.")
+        return self.posx
+
+    def showtank(self):
+       pic = self.image
+       return pic         
+
+    def position(self):
+        return self.posx
+
+    def color(self):
+        return self.color
+    
     def fire(self):
         None
 class Turret(pygame.sprite.Sprite):

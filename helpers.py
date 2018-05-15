@@ -17,10 +17,10 @@ def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
     output.writerow([int(input("Please input the vertical window size (Current value is "+ str(y_dim) +"): "))])
     output.writerow([float(input("Please input the gravity strength (Current value is "+ str(gravity) +"): "))])
     output.writerow([float(input("Please input the drag constant (Current value is "+ str(drag) +"): "))])
-    output.writerow([float(input("Please input the maximum wind speec (Current value is "+ str(drag) +"): "))])
+    output.writerow([float(input("Please input the maximum wind speed (Current value is "+ str(wind_max) +"): "))])
 
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, pos_x, x_dim, y_dim, player, img):
+    def __init__(self, pos_x, x_dim, y_dim, player, img, gravity, wind_max, drag):
         super().__init__()
         self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
@@ -29,6 +29,10 @@ class Tank(pygame.sprite.Sprite):
         self.posy = y_dim-63
         self.player = player
         self.x_max = x_dim
+        self.grav = gravity
+        self.wind = wind_max
+        self.drag = drag
+
     def move(self):
         dist = 516
         while (dist > 50 or dist <= -50):
@@ -82,15 +86,15 @@ class Shell(pygame.sprite.Sprite):
         self.y_pos=self.Tank.posy
         a=random.random()
         b=random.random()
-        windy=b*wind_max
+        windy=b*self.Tank.wind
         if a<0.5:
             v_wind=windy
             print('The wind is blowing %.2f mph to the right.'%windy)
         else:
             v_wind=windy*-1
             print('The wind is blowing %.2f mph to the left.'%windy)
-        while self.y_pos>0 and self.x_pos>0 and self.x_pos<self.x_max:
-            Fire(drag, v_wind, gravity, dt)
+        while self.y_pos>0 and self.x_pos>0 and self.x_pos<self.Tank.x_max:
+            self.Fire(self.Tank.drag, v_wind, self.Tank.grav, 1)
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much

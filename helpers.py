@@ -100,7 +100,7 @@ class Shell(pygame.sprite.Sprite):
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
-        self.x_pox=self.x_pos+dt*self.v_x
+        self.x_pos=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
         return self.rect.move(self.x_pos,self.y_pos)
         #dx = int((self.v_x * dt*2.5))

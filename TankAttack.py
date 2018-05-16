@@ -118,8 +118,6 @@ while(True):
             if (opt[0].lower() == 'f'):
                 v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
-                pt_P1 = (p1.position(), y_dim-85)
-                pt_P2 = (p2.position(), y_dim-85)
                 pygame.display.flip()
                 barp1.rotate(angle)
                 if p == 1:
@@ -132,22 +130,26 @@ while(True):
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
                         fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,yposition,10,10],0)
+                        col = pygame.Rect.colliderect(fire, p2.rect)
+                        if col == True:
+                            screen.blit(pygame.image.load('dead.png'), (p2.position(),y_dim-85))
                         pygame.display.flip()
-                        col = pygame.sprite.collide_rect(fire, p2.rect)
 
                 elif p == 2:
                     shot = Shell(v_0, angle, p2)
                     col = False
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:
-                    	shot.Fire(drag, v_wind, gravity, 0.5)
+                        shot.Fire(drag, v_wind, gravity, 0.5)
                         yposition = shot.y_pos
                         if shot.y_pos < 0:
                             yposition = shot.y_pos*-1
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
                         fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,yposition,10,10],0)
+                        col = pygame.Rect.colliderect(fire, p1.rect)
+                        if col == True:
+                            screen.blit(pygame.image.load('dead.png'), (p1.position(),y_dim-85))
                         pygame.display.flip()
-                        col = pygame.sprite.collide_rect(fire, p1.rect)
 
                 if col == True:
                     print("Congratulations, Player " + str(p) +".")

@@ -64,7 +64,7 @@ wind = rd.random()*wind_max
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
-    start = input("To begin, type play. To change parameters type options.")
+    start = input("To begin, type P. To change parameters type O.")
     screen = pygame.display.set_mode(field)
     show(p1,p2, screen)
     pygame.display.flip()
@@ -81,12 +81,12 @@ while(True):
             show(p1,p2, screen)
             pygame.display.flip()
             print("Player " + str(p))
-            print("If you want to fire a shell from your tank, Press A.")
-            print("If you want to move your tank 50 meters back. Press B.")
+            print("If you want to fire a shell from your tank, Press F.")
+            print("If you want to move your tank 50 meters back. Press M.")
             opt = str(input())
 
-            if (opt[-1].lower() == 'a'):
-                v_0 = float(input("Input his initial velocity: "))
+            if (opt[-1].lower() == 'f'):
+                v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
                 pt_P1 = (p1.position(), y_dim-85)
                 pt_P2 = (p2.position(), y_dim-85)
@@ -112,7 +112,7 @@ while(True):
                         pygame.display.flip()
                         col = pygame.sprite.collide_rect(shot, p1)
 
-            elif (opt[-1].lower() == 'b'):
+            elif (opt[-1].lower() == 'm'):
                 if p == 1:
                     p1.move()
                 elif p == 2:

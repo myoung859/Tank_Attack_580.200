@@ -16,7 +16,6 @@ wind_max = 10
 filer.close()
 
 pygame.init()
-field = [x_dim, y_dim]
 
 pygame.display.set_caption("Tank Attack")
 
@@ -49,6 +48,7 @@ while(True):
     start = input("To begin, type P. To change parameters type O.")
 
     if start[-1].lower() == 'p':
+        field = [x_dim, y_dim]
         ip1 = initalized(x_dim)
         ip2 = initalized(x_dim)
 

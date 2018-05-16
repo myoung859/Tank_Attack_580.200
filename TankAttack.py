@@ -93,22 +93,22 @@ while(True):
                 pygame.display.flip()
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
-                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col=False:
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
                         shot.Fire(drag, v_wind, gravity, 1)
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
                         pygame.draw.rect(screen,[255,255,255],shot,0)
                         pygame.display.flip()
-                        col = pygame.sprite.collide_rect(shot, p1)
+                        col = pygame.sprite.collide_rect(shot, p2)
                 elif p == 2:
                     shot = Shell(v_0, angle, p2)
-                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col=False:
-                        col = pygame.sprite.collide_rect(shot, p1)
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
                         shot.Fire(drag, v_wind, gravity, 1)
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
                         pygame.draw.rect(screen,[255,255,255],shot,0)
                         pygame.display.flip()
+                        col = pygame.sprite.collide_rect(shot, p1)
 
             elif (opt[-1].lower() == 'b'):
                 if p == 1:

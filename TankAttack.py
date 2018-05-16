@@ -102,7 +102,7 @@ while(True):
             show(p1,p2, screen)
             pygame.display.flip()
             
-			opt = 'IFYOUREADTHISGIVEUSANA'
+	    	opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
                 print(opt[0])
                 print("If you want to fire a shell from your tank, input (F)ire.")

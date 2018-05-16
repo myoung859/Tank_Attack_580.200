@@ -24,8 +24,9 @@ class Tank(pygame.sprite.Sprite):
         self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
         self.ymax = y_dim
+        self.positx= pos_x
         self.rect.center = (pos_x, y_dim-63)
-        self.posx = pos_x
+        self.posx = pos_x+15
         if player == 1:
             self.color = [255,0,0]
         elif player == 2:
@@ -36,7 +37,7 @@ class Tank(pygame.sprite.Sprite):
         
     def move(self):
         dist = 516
-        while (dist > 50 or dist <= -50):
+        while (dist > 50 or dist < -50):
             dist = int(input("Please enter the distance (positive-RIGHT or negative-LEFT) to move, up to 50 meters: "))
         self.posx = self.posx + int(2.5*dist) #Inspired by https://bit.ly/2KkNOp8
         if (self.posx <= 20):
@@ -52,7 +53,7 @@ class Tank(pygame.sprite.Sprite):
        return pic         
 
     def position(self):
-        return self.posx
+        return self.positx
 
     def color(self):
         return self.color
@@ -86,8 +87,6 @@ class Shell(pygame.sprite.Sprite):
         self.mass = 10
         self.x_pos=self.Tank.posx
         self.y_pos=self.Tank.posy
-        print(self.x_pos)
-        print(self.y_pos)
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much
@@ -95,8 +94,6 @@ class Shell(pygame.sprite.Sprite):
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
         self.x_pos=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
-        print(self.x_pos)
-        print(self.y_pos)
         
 class Barrel(pygame.sprite.Sprite):
     def __init__(self, Turret):

@@ -97,7 +97,7 @@ while(True):
 			#Prompts the user until they select a mode
 	    opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
-                print("Player " + str(p))
+                print("---Player " + str(p) +"---")
                 print("If you want to fire a shell from your tank, input (F)ire.")
                 print("If you want to move your tank up to 50 meters, input (M)ove.")
                 print("To quit, input (Q)uit")
@@ -147,6 +147,7 @@ while(True):
                 if col == True:
                     print("Congratulations, Player " + str(p) +".")
                     print("You totally annihilated the other player.")
+		    print("I hope you're happy with yourself.")
                     break
 
             elif (opt[0].lower() == 'm'):

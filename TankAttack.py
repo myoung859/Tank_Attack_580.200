@@ -103,10 +103,6 @@ while(True):
                 print("To quit, input (Q)uit")
                 opt = str(input())
 
-            if start.lower() == 'q':
-                pygame.display.quit()
-                pygame.quit()
-                break
 #Sets up shell spawning
             if (opt[0].lower() == 'f'):
                 v_0 = float(input("Input the initial velocity: "))
@@ -143,6 +139,10 @@ while(True):
                         if col == True:
                             screen.blit(pygame.image.load('dead.png'), (p1.position(),y_dim-85))
                         pygame.display.flip()
+	    elif start[0].lower() == 'q':
+		pygame.quit
+		break
+
 
                 if col == True:
                     print("Congratulations, Player " + str(p) +".")
@@ -175,8 +175,6 @@ while(True):
                    v_wind=windy*-1
                    print('The wind is blowing %.2f mph to the left.'%windy)
 
-
-
-    if start.lower() == 'q':
+    if start[0].lower() == 'q':
         pygame.quit
         break

@@ -2,8 +2,6 @@ import pygame
 import random as rd
 from helpers import Tank
 from helpers import Shell
-from helpers import Turret
-from helpers import Barrel
 import helpers as TA
 
 #Initial parameter setup
@@ -47,7 +45,7 @@ def initalized(x_dim): #Used to create semi-random starting positions (i.e. not 
 while(True):
     start = input("To begin, type (P)lay. To change parameters type (O)ptions.")
 	#if options, redo the parameters
-	if start[0].lower() == 'o':
+    if start[0].lower() == 'o':
         TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag, wind_max)
         filer=open('options.csv', 'r',newline = '')
         x_dim = int(filer.readline())
@@ -65,10 +63,6 @@ while(True):
 #Adds in the players
         p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
         p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
-        turP1 = Turret(p1)
-        turP2 = Turret(p2)
-        barP1 = Barrel(turP1)
-        barP2 = Barrel(turP2)
         
         pygame.init()
         b=rd.random()
@@ -98,14 +92,12 @@ while(True):
                     pygame.quit()
                     break
             screen = pygame.display.set_mode(field)
-            screen.blit(barP1.image,(p2.position(),y_dim-75))
-            screen.blit(barP2.image,(p2.position(),y_dim-75))
             show(p1,p2, screen)
             pygame.display.flip()
 			#Prompts the user until they select a mode
-	    	opt = 'IFYOUREADTHISGIVEUSANA'
+	    opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
-                print(opt[0])
+                print("Player " + str(p))
                 print("If you want to fire a shell from your tank, input (F)ire.")
                 print("If you want to move your tank up to 50 meters, input (M)ove.")
                 print("To quit, input (Q)uit")
@@ -120,7 +112,6 @@ while(True):
                 v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
                 pygame.display.flip()
-                barP1.rotate(angle)
 				#Fires shell, then checks after each iteration fot outofbounds/hit
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
@@ -165,8 +156,6 @@ while(True):
                     p2.move()
 
                 screen = pygame.display.set_mode(field)
-                screen.blit(barP1.image,(p2.position(),y_dim-75))
-                screen.blit(barP2.image,(p2.position(),y_dim-75))
                 show(p1,p2, screen)
                 pygame.display.flip()
 				

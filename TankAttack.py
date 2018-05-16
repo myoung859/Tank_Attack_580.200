@@ -47,9 +47,9 @@ while(True):
 
 
     if start[0].lower() == 'p':
-        field = [x_dim, y_dim]
-        ip1 = rd.randint(50,x_dim - 50)
-        ip2 = rd.randint(50,x_dim - 50)
+        field = [int(x_dim) , int(y_dim)]
+        ip1 = rd.randint(50,int(x_dim) - 50)
+        ip2 = rd.randint(50,int(x_dim) - 50)
 #Adds in the players
         p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
         p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
@@ -85,7 +85,7 @@ while(True):
             show(p1,p2, screen)
             pygame.display.flip()
 			#Prompts the user until they select a mode
-	    opt = 'IFYOUREADTHISGIVEUSANA'
+            opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
                 print("---Player " + str(p) +"---")
                 print("If you want to fire a shell from your tank, input (F)ire.")
@@ -132,7 +132,7 @@ while(True):
                 if col == True:
                     print("Congratulations, Player " + str(p) +".")
                     print("You totally annihilated the other player.")
-		    print("I hope you're happy with yourself.")
+                    print("I hope you're happy with yourself.")
                     break
 
             elif (opt[0].lower() == 'm'):

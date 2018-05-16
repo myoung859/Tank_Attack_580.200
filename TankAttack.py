@@ -6,11 +6,11 @@ import helpers as TA
 
 #Initial parameter setup
 filer=open('options.csv', 'r',newline = '')
-x_dim = filer.readline()
-y_dim = filer.readline()
-gravity = filer.readline()
-drag = filer.readline()
-wind_max = filer.readline()
+x_dim = int(filer.readline())
+y_dim = int(filer.readline())
+gravity = float(filer.readline())
+drag = float(filer.readline())
+wind_max = float(filer.readline())
 filer.close()
 
 pygame.init()
@@ -155,7 +155,7 @@ while(True):
                 windy=b*wind_max
                 if a<0.5:
                    v_wind=windy
-                   print('The wind is blowing %.2f mph to the left.'%windy)
+                   print('The wind is blowing %.2f mph to the right.'%windy)
                 else:
                    v_wind=windy*-1
-                   print('The wind is blowing %.2f mph to the right.'%windy)
+                   print('The wind is blowing %.2f mph to the left.'%windy)

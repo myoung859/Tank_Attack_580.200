@@ -2,8 +2,6 @@ import pygame
 import random as rd
 from helpers import Tank
 from helpers import Shell
-from helpers import Turret
-from helpers import Barrel
 import helpers as TA
 
 #Initial parameter setup

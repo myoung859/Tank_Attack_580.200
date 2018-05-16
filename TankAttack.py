@@ -31,16 +31,6 @@ def show(p1, p2, screen):
     screen.blit(text2, (p2.position()+15,y_dim-50))
     return
 
-def initalized(x_dim): #Used to create semi-random starting positions (i.e. not on top of each other)
-    i = int(rd.random()*x_dim)
-
-    if i > (x_dim - 50):
-        i = i - 50
-    elif i < 50:
-        i = i + 50
-    return i
-
-
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     start = input("To begin, type (P)lay. To change parameters type (O)ptions.")

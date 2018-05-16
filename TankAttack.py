@@ -92,15 +92,21 @@ while(True):
                 pt_P2 = (p2.position(), y_dim-85)
                 pygame.display.flip()
                 if p == 1:
-                    shot = Shell(v_0, angle, p1, wind_max)
+                    shot = Shell(v_0, angle, p1)
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max:
-                        shot.Fire(drag, gravity, 1)
+                        shot.Fire(drag, v_wind, gravity, 1)
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
                         pygame.draw.rect(screen,[255,255,255],shot,0)
                         pygame.display.flip()
                 elif p == 2:
-                    shot = Shell(v_0, angle, p2, drag, gravity)
+                    shot = Shell(v_0, angle, p2)
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max:
+                        shot.Fire(drag, v_wind, gravity, 1)
+                        screen = pygame.display.set_mode(field)
+                        show(p1,p2, screen)
+                        pygame.draw.rect(screen,[255,255,255],shot,0)
+                        pygame.display.flip()
 
             elif (opt[-1].lower() == 'b'):
                 if p == 1:
@@ -115,7 +121,15 @@ while(True):
                 p = 2
             elif p == 2:
                 p = 1
-                wind = rd.random()*wind_max
+                a=rd.random()
+                b=rd.random()
+                windy=b*self.Tank.wind
+                if a<0.5:
+                   v_wind=windy
+                   print('The wind is blowing %.2f mph to the right.'%windy)
+                else:
+                   v_wind=windy*-1
+                   print('The wind is blowing %.2f mph to the left.'%windy)
 
         if hit() == True:
             print("Congratulations, Player " + str(p) +".")

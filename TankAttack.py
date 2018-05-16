@@ -33,18 +33,6 @@ def show(p1, p2, screen):
     screen.blit(text2, (p2.position()+15,y_dim-50))
     return
 
-def turret(angle, p1, p2, p):
-    screen.fill([0,0,156])
-    Font = pygame.font.SysFont(None, 14)
-    pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
-    screen.blit(p1.showtank(), (p1.position(),y_dim-85))
-    text = Font.render('P1', True, (255, 0, 0), None)
-    screen.blit(text, (p1.position()+15,y_dim-50))
-    text2 = Font.render('P2', True, (0, 255, 0), None)
-    screen.blit(p2.showtank(), (p2.position(),y_dim-85))
-    screen.blit(text2, (p2.position()+15,y_dim-50))
-    return
-
 def initalized(x_dim):
     i = int(rd.random()*x_dim)
 

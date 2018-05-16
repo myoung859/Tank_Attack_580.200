@@ -45,9 +45,20 @@ def initalized(x_dim):
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
-    start = input("To begin, type P. To change parameters type O.")
+    start = input("To begin, type (P)lay. To change parameters type (O)ptions.")
 
-    if start[-1].lower() == 'p':
+	if start[0].lower() == 'o':
+        TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag, wind_max)
+        filer=open('options.csv', 'r',newline = '')
+        x_dim = int(filer.readline())
+        y_dim = int(filer.readline())
+        gravity = float(filer.readline())
+        drag = float(filer.readline())
+        wind_max = float(filer.readline())
+        filer.close()
+
+
+    if start[0].lower() == 'p':
         field = [x_dim, y_dim]
         ip1 = initalized(x_dim)
         ip2 = initalized(x_dim)
@@ -80,22 +91,30 @@ while(True):
             print('The wind is blowing %.2f mph to the left.'%windy)
         
         while col == False:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.display.quit()
+                    pygame.quit()
+                    break
             screen = pygame.display.set_mode(field)
             screen.blit(barp1.image,(p2.position(),y_dim-75))
             screen.blit(barp2.image,(p2.position(),y_dim-75))
             show(p1,p2, screen)
             pygame.display.flip()
-            print("Player " + str(p))
-            print("If you want to fire a shell from your tank, Press F.")
-            print("If you want to move your tank 50 meters back. Press M.")
-            print("At anytime, press Q to quit.")
-            opt = str(input())
+            
+            while (not (opt[0].lower() in ['f','m','q'])):
+                print(opt[0])
+                print("If you want to fire a shell from your tank, input (F)ire.")
+                print("If you want to move your tank up to 50 meters, input (M)ove.")
+                print("To quit, input (Q)uit")
+                opt = str(input())
 
             if start.lower() == 'q':
-                pygame.quit
+                pygame.display.quit()
+                pygame.quit()
                 break
 
-            if (opt[-1].lower() == 'f'):
+            if (opt[0].lower() == 'f'):
                 v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
                 pt_P1 = (p1.position(), y_dim-85)
@@ -128,7 +147,7 @@ while(True):
                     print("You totally annihilated the other player.")
                     break
 
-            elif (opt[-1].lower() == 'm'):
+            elif (opt[0].lower() == 'm'):
                 if p == 1:
                     p1.move()
                 elif p == 2:
@@ -153,16 +172,7 @@ while(True):
                    v_wind=windy*-1
                    print('The wind is blowing %.2f mph to the left.'%windy)
 
-        
-    if start[-1].lower() == 'o':
-        TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag, wind_max)
-        filer=open('options.csv', 'r',newline = '')
-        x_dim = int(filer.readline())
-        y_dim = int(filer.readline())
-        gravity = float(filer.readline())
-        drag = float(filer.readline())
-        wind_max = float(filer.readline())
-        filer.close()
+
 
     if start.lower() == 'q':
         pygame.quit

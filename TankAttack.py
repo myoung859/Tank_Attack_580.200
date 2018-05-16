@@ -77,7 +77,7 @@ while(True):
         screen = pygame.display.set_mode(field)
         show(p1,p2, screen)
         pygame.display.flip()
-        z = False
+        hit = False
         
         a=rd.random()
         b=rd.random()
@@ -89,7 +89,7 @@ while(True):
             v_wind=windy*-1
             print('The wind is blowing %.2f mph to the left.'%windy)
         
-        while z == False:
+        while hit == False:
             screen = pygame.display.set_mode(field)
             show(p1,p2, screen)
             pygame.display.flip()
@@ -148,7 +148,7 @@ while(True):
                    v_wind=windy*-1
                    print('The wind is blowing %.2f mph to the left.'%windy)
 
-        if hit() == True:
+        if hit == True:
             print("Congratulations, Player " + str(p) +".")
             print("You totally annihilated the other player.")
 

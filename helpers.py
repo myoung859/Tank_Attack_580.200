@@ -96,4 +96,18 @@ class Shell(pygame.sprite.Sprite):
         #print(dx)
         #print(dy)
         #return self.rect.move(dx,dy)
-    
+        
+   class Barrel(pygame.sprite.Sprite):
+    def __init__(self, Turret):
+        super().__init__()
+        self.image = pygame.Surface([20, 6])
+        self.image.fill(self.Turret.color)
+        self.rect = self.image.get_rect()
+        self.rect.left = (self.Turret.rect.centerx, self.Tank.centery)
+    def update(self):
+        self.rect.left = (self.Turret.rect.centerx, self.Tank.centery)
+    def rotate(self, angle):
+        w, h = self.image.get_size()
+        img2 = pygame.Surface((w*2, h*2), pygame.SRCALPHA)
+        img2.blit(self.image, (w-self.rect.center[0], h-self.rect.center[1]))
+        return pygame.transform.rotate(img2, angle)

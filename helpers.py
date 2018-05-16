@@ -60,19 +60,6 @@ class Tank(pygame.sprite.Sprite):
     
     def fire(self):
         None
-class Turret(pygame.sprite.Sprite):
-    def __init__(self, associated): #link with body
-        super().__init__()
-        self.associated = associated
-        self.player = getattr(self.associated, 'player')
-        self.image = pygame.Surface([24,24])
-        self.color = getattr(self.associated, 'color')
-        pygame.draw.circle(self.image, getattr(self.associated, 'color'), (12, 12),6)
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.associated.rect.centerx, self.associated.rect.centery - 6)
-        self.image.set_colorkey([0,0,0])
-    def update(self):
-        self.rect.x = self.associated.rect.x
 class Shell(pygame.sprite.Sprite):
     def __init__(self, v_0, angle, Tank):
         super().__init__()
@@ -95,19 +82,3 @@ class Shell(pygame.sprite.Sprite):
         self.x_pos=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
         
-class Barrel(pygame.sprite.Sprite):
-    def __init__(self, Turret):
-        super().__init__()
-        self.image = pygame.Surface([20, 6])
-        self.Turret = Turret
-        self.Tank = Turret.associated
-        self.image.fill(self.Turret.color)
-        self.rect = self.image.get_rect()
-        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
-    def update(self):
-        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
-    def rotate(self, angle):
-        w, h = self.image.get_size()
-        img2 = pygame.Surface((w*2, h*2), pygame.SRCALPHA)
-        img2.blit(self.image, (w-self.rect.center[0], h-self.rect.center[1]))
-        return pygame.transform.rotate(img2, angle)

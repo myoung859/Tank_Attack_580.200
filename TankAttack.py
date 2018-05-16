@@ -155,7 +155,7 @@ while(True):
                 windy=b*wind_max
                 if a<0.5:
                    v_wind=windy
-                   print('The wind is blowing %.2f mph to the right.'%windy)
+                   print('The wind is blowing %.2f mph to the left.'%windy)
                 else:
                    v_wind=windy*-1
-                   print('The wind is blowing %.2f mph to the left.'%windy)
+                   print('The wind is blowing %.2f mph to the right.'%windy)

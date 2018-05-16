@@ -20,7 +20,7 @@ def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
     output.writerow([float(input("Please input the maximum wind speed (Current value is "+ str(wind_max) +"): "))])
 
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, pos_x, x_dim, y_dim, player, img, gravity, drag):
+    def __init__(self, pos_x, x_dim, y_dim, player, img):
         super().__init__()
         self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
@@ -29,9 +29,7 @@ class Tank(pygame.sprite.Sprite):
         self.posy = y_dim-63
         self.player = player
         self.x_max = x_dim
-        self.grav = gravity
-        self.drag = drag
-
+        
     def move(self):
         dist = 516
         while (dist > 50 or dist <= -50):

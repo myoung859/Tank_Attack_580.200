@@ -60,6 +60,7 @@ p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
 p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
 
 pygame.init()
+wind = rd.random()*wind_max
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
@@ -114,6 +115,7 @@ while(True):
                 p = 2
             elif p == 2:
                 p = 1
+                wind = rd.random()*wind_max
 
         if hit() == True:
             print("Congratulations, Player " + str(p) +".")

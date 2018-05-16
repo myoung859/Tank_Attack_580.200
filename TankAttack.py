@@ -100,7 +100,7 @@ while(True):
                         pygame.draw.rect(screen,[255,255,255],shot,0)
                         pygame.display.flip()
                 elif p == 2:
-                    shot = Shell(v_0, angle, p2, wind_max, drag, gravity)
+                    shot = Shell(v_0, angle, p2, drag, gravity)
 
             elif (opt[-1].lower() == 'b'):
                 if p == 1:

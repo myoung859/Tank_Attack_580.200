@@ -54,17 +54,19 @@ def initalized(x_dim):
         i = i + 50
     return i
 
-ip1 = initalized(x_dim)
-ip2 = initalized(x_dim)
-
-p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
-p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
-
-pygame.init()
-wind = rd.random()*wind_max
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
+    ip1 = initalized(x_dim)
+    ip2 = initalized(x_dim)
+
+    p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
+    p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+
+    pygame.init()
+    b=rd.random()
+    windy=b*wind_max
+    
     start = input("To begin, type P. To change parameters type O.")
     screen = pygame.display.set_mode(field)
     show(p1,p2, screen)

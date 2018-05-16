@@ -1,116 +1,169 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun May 13 17:35:38 2018
-@author: Mike
-"""
 import pygame
-from math import radians,sin,cos
-import csv
-import random
+import random as rd
+from helpers import Tank
+from helpers import Shell
+from helpers import Turret
+from helpers import Barrel
+import helpers as TA
 
-def options_prompt(filename, x_dim, y_dim, gravity, drag,wind_max):
+#Initial parameter setup
+filer=open('options.csv', 'r',newline = '')
+x_dim = 500
+y_dim = 500
+gravity = 9.8
+drag = 5
+wind_max = 10
+filer.close()
 
-    filew = open(filename, 'w',newline = '')
-    output = csv.writer(filew)
-    output.writerow([int(input("Please input the horizontal window size (Current value is "+ str(x_dim) +"): "))])
-    output.writerow([int(input("Please input the vertical window size (Current value is "+ str(y_dim) +"): "))])
-    output.writerow([float(input("Please input the gravity strength (Current value is "+ str(gravity) +"): "))])
-    output.writerow([float(input("Please input the drag constant (Current value is "+ str(drag) +"): "))])
-    output.writerow([float(input("Please input the maximum wind speed (Current value is "+ str(wind_max) +"): "))])
+pygame.init()
+field = [x_dim, y_dim]
 
-class Tank(pygame.sprite.Sprite):
-    def __init__(self, pos_x, x_dim, y_dim, player, img):
-        super().__init__()
-        self.image = pygame.image.load(img)
-        self.rect = self.image.get_rect()
-        self.ymax = y_dim
-        self.rect.center = (pos_x, y_dim-63)
-        self.posx = pos_x
-        if player == 1:
-            self.color = [255,0,0]
-        elif player == 2:
-            self.color = [0,255,0]           
-        self.posy = y_dim-63
-        self.player = player
-        self.x_max = x_dim
+pygame.display.set_caption("Tank Attack")
+
+print("Welcome to Tank Attack!")
+
+def show(p1, p2, screen):
+    screen.fill([0,0,156])
+    Font = pygame.font.SysFont(None, 14)
+    pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
+    screen.blit(p1.showtank(), (p1.position(),y_dim-85))
+    text = Font.render('P1', True, (255, 0, 0), None)
+    screen.blit(text, (p1.position()+15,y_dim-50))
+    text2 = Font.render('P2', True, (0, 255, 0), None)
+    screen.blit(p2.showtank(), (p2.position(),y_dim-85))
+    screen.blit(text2, (p2.position()+15,y_dim-50))
+    return
+
+def initalized(x_dim):
+    i = int(rd.random()*x_dim)
+
+    if i > (x_dim - 50):
+        i = i - 50
+    elif i < 50:
+        i = i + 50
+    return i
+
+
+#Repeatedly prompts the user until they type 'o' or 'p'
+while(True):
+    start = input("To begin, type P. To change parameters type O.")
+
+    if start[-1].lower() == 'p':
+        ip1 = initalized(x_dim)
+        ip2 = initalized(x_dim)
+
+        p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
+        p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+        turp1 = Turret(p1)
+        turp2 = Turret(p2)
+        barp1 = Barrel(turp1)
+        barp2 = Barrel(turp2)
         
-    def move(self):
-        dist = 516
-        while (dist > 50 or dist <= -50):
-            dist = int(input("Please enter the distance (positive-RIGHT or negative-LEFT) to move, up to 50 meters: "))
-        self.posx = self.posx + int(2.5*dist) #Inspired by https://bit.ly/2KkNOp8
-        if (self.posx <= 20):
-            self.posx = 0
-            print("You can't get out of this one.")
-        if (self.posx >= self.x_max - 20):
-            self.posx = self.x_max
-            print("You can't get out of this one.")
-        return self.posx
-
-    def showtank(self):
-       pic = self.image
-       return pic         
-
-    def position(self):
-        return self.posx
-
-    def color(self):
-        return self.color
-    
-    def fire(self):
-        None
-class Turret(pygame.sprite.Sprite):
-    def __init__(self, associated): #link with body
-        super().__init__()
-        self.associated = associated
-        self.player = getattr(self.associated, 'player')
-        self.image = pygame.Surface([24,24])
-        self.color = getattr(self.associated, 'color')
-        pygame.draw.circle(self.image, getattr(self.associated, 'color'), (12, 12),6)
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.associated.rect.centerx, self.associated.rect.centery - 6)
-        self.image.set_colorkey([0,0,0])
-    def update(self):
-        self.rect.x = self.associated.rect.x
-class Shell(pygame.sprite.Sprite):
-    def __init__(self, v_0, angle, Tank):
-        super().__init__()
-        self.image = pygame.image.load('bullet.png')
-        self.color = [255,0,255]
-        self.rect = self.image.get_rect()
-        self.Tank = Tank
-        self.rect.center = (self.Tank.rect.centerx, self.Tank.rect.centery - 6)        
-        self.player = getattr(self.Tank, 'player')
-        self.v_x = cos(radians(angle)) * v_0
-        self.v_y = sin(radians(angle)) * v_0
-        self.mass = 10
-        self.x_pos=self.Tank.posx
-        self.y_pos=self.Tank.posy
-        print(self.x_pos)
-        print(self.y_pos)
+        pygame.init()
+        b=rd.random()
+        windy=b*wind_max
         
-    def Fire(self,drag,v_wind, gravity,dt):
-        #Calculates real-time change in velocity, then moves the shell that much
-        self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
-        self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
-        self.x_pos=self.x_pos+dt*self.v_x
-        self.y_pos=self.y_pos+dt*self.v_y
-        print(self.x_pos)
-        print(self.y_pos)
+        p = 1
+        screen = pygame.display.set_mode(field)
+        show(p1,p2, screen)
+        pygame.display.flip()
+        col = False
         
-class Barrel(pygame.sprite.Sprite):
-    def __init__(self, Turret):
-        super().__init__()
-        self.image = pygame.Surface([20, 6])
-        self.Turret = Turret
-        self.Tank = Turret.associated
-        self.image.fill(self.Turret.color)
-        self.rect = self.image.get_rect()
-        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
-    def update(self):
-        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
-    def rotate(self, angle):
-        w, h = self.image.get_size()
-        img2 = pygame.Surface((w*2, h*2), pygame.SRCALPHA)
-        img2.blit(self.image, (w-self.rect.center[0], h-self.rect.center[1]))
-        return pygame.transform.rotate(img2, angle)
+        a=rd.random()
+        b=rd.random()
+        windy=b*wind_max
+        if a<0.5:
+            v_wind=windy
+            print('The wind is blowing %.2f mph to the right.'%windy)
+        else:
+            v_wind=windy*-1
+            print('The wind is blowing %.2f mph to the left.'%windy)
+        
+        while col == False:
+            screen = pygame.display.set_mode(field)
+            screen.blit(barp1.image,(p2.position(),y_dim-75))
+            screen.blit(barp2.image,(p2.position(),y_dim-75))
+            show(p1,p2, screen)
+            pygame.display.flip()
+            print("Player " + str(p))
+            print("If you want to fire a shell from your tank, Press F.")
+            print("If you want to move your tank 50 meters back. Press M.")
+            print("At anytime, press Q to quit.")
+            opt = str(input())
+
+            if start.lower() == 'q':
+                pygame.quit
+                break
+
+            if (opt[-1].lower() == 'f'):
+                v_0 = float(input("Input the initial velocity: "))
+                angle = float(input("Input the angle of your shot (degrees): "))
+                pt_P1 = (p1.position(), y_dim-85)
+                pt_P2 = (p2.position(), y_dim-85)
+                pygame.display.flip()
+                barp1.rotate(angle)
+                if p == 1:
+                    shot = Shell(v_0, angle, p1)
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
+                        shot.Fire(drag, v_wind, gravity, 0.5)
+                        screen = pygame.display.set_mode(field)
+                        show(p1,p2, screen)
+                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,shot.y_pos,10,10],0)
+                        pygame.display.flip()
+                        col = pygame.sprite.collide_rect(fire, p2.rect)
+
+                elif p == 2:
+                    shot = Shell(v_0, angle, p2)
+                    col = False
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
+                        shot.Fire(drag, v_wind, gravity, 0.5)
+                        screen = pygame.display.set_mode(field)
+                        show(p1,p2, screen)
+                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,shot.y_pos,10,10],0)
+                        pygame.display.flip()
+                        col = pygame.sprite.collide_rect(fire, p1.rect)
+
+                if col == True:
+                    print("Congratulations, Player " + str(p) +".")
+                    print("You totally annihilated the other player.")
+                    break
+
+            elif (opt[-1].lower() == 'm'):
+                if p == 1:
+                    p1.move()
+                elif p == 2:
+                    p2.move()
+
+                screen = pygame.display.set_mode(field)
+                screen.blit(barp1.image,(p2.position(),y_dim-75))
+                screen.blit(barp2.image,(p2.position(),y_dim-75))
+                show(p1,p2, screen)
+                pygame.display.flip()
+            if p == 1:
+                p = 2
+            elif p == 2:
+                p = 1
+                a=rd.random()
+                b=rd.random()
+                windy=b*wind_max
+                if a<0.5:
+                   v_wind=windy
+                   print('The wind is blowing %.2f mph to the right.'%windy)
+                else:
+                   v_wind=windy*-1
+                   print('The wind is blowing %.2f mph to the left.'%windy)
+
+        
+    if start[-1].lower() == 'o':
+        TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag, wind_max)
+        filer=open('options.csv', 'r',newline = '')
+        x_dim = int(filer.readline())
+        y_dim = int(filer.readline())
+        gravity = float(filer.readline())
+        drag = float(filer.readline())
+        wind_max = float(filer.readline())
+        filer.close()
+
+    if start.lower() == 'q':
+        pygame.quit
+        break

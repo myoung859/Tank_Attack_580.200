@@ -100,7 +100,6 @@ while(True):
                 print("---Player " + str(p) +"---")
                 print("If you want to fire a shell from your tank, input (F)ire.")
                 print("If you want to move your tank up to 50 meters, input (M)ove.")
-                print("To quit, input (Q)uit")
                 opt = str(input())
 
 #Sets up shell spawning
@@ -139,10 +138,6 @@ while(True):
                         if col == True:
                             screen.blit(pygame.image.load('dead.png'), (p1.position(),y_dim-85))
                         pygame.display.flip()
-	    elif start[0].lower() == 'q':
-		pygame.quit
-		break
-
 
                 if col == True:
                     print("Congratulations, Player " + str(p) +".")
@@ -174,7 +169,3 @@ while(True):
                 else:
                    v_wind=windy*-1
                    print('The wind is blowing %.2f mph to the left.'%windy)
-
-    if start[0].lower() == 'q':
-        pygame.quit
-        break

@@ -39,14 +39,14 @@ class Tank(pygame.sprite.Sprite):
         dist = 516
         while (dist > 50 or dist < -50):
             dist = int(input("Please enter the distance (positive-RIGHT or negative-LEFT) to move, up to 50 meters: "))
-        self.posx = self.posx + int(2.5*dist) #Inspired by https://bit.ly/2KkNOp8
-        if (self.posx <= 20):
-            self.posx = 0
+        self.positx = self.positx + int(2.5*dist) #Inspired by https://bit.ly/2KkNOp8
+        if (self.positx <= 20):
+            self.positx = 0
             print("You can't get out of this one.")
-        if (self.posx >= self.x_max - 20):
-            self.posx = self.x_max
+        if (self.positx >= self.x_max - 20):
+            self.positx = self.x_max
             print("You can't get out of this one.")
-        return self.posx
+        return self.positx
 
     def showtank(self):
        pic = self.image

@@ -123,7 +123,7 @@ while(True):
                 p = 1
                 a=rd.random()
                 b=rd.random()
-                windy=b*self.Tank.wind
+                windy=b*wind_max
                 if a<0.5:
                    v_wind=windy
                    print('The wind is blowing %.2f mph to the right.'%windy)

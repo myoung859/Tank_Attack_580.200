@@ -96,7 +96,6 @@ while(True):
             
 	    	opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
-                print(opt[0])
                 print("If you want to fire a shell from your tank, input (F)ire.")
                 print("If you want to move your tank up to 50 meters, input (M)ove.")
                 print("To quit, input (Q)uit")

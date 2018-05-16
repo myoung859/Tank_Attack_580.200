@@ -57,28 +57,25 @@ def initalized(x_dim):
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
-    ip1 = initalized(x_dim)
-    ip2 = initalized(x_dim)
-
-    p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
-    p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
-
-    pygame.init()
-    b=rd.random()
-    windy=b*wind_max
-    
     start = input("To begin, type P. To change parameters type O.")
-    screen = pygame.display.set_mode(field)
-    show(p1,p2, screen)
-    pygame.display.flip()
 
     if start[-1].lower() == 'p':
+        ip1 = initalized(x_dim)
+        ip2 = initalized(x_dim)
+
+        p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
+        p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+
+        pygame.init()
+        b=rd.random()
+        windy=b*wind_max
+        
         p = 1
         screen = pygame.display.set_mode(field)
         show(p1,p2, screen)
         pygame.display.flip()
         z = False
-
+        
         while z == False:
             screen = pygame.display.set_mode(field)
             show(p1,p2, screen)

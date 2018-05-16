@@ -10,8 +10,8 @@ import helpers as TA
 filer=open('options.csv', 'r',newline = '')
 x_dim = 500
 y_dim = 500
-gravity = float(filer.readline())
-drag = float(filer.readline())
+gravity = 10
+drag = 2
 wind_max = float(filer.readline())
 filer.close()
 

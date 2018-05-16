@@ -125,10 +125,13 @@ while(True):
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
-                        shot.Fire(drag, v_wind, gravity, 0.5)
+                       shot.Fire(drag, v_wind, gravity, 0.5)
+                        yposition = shot.y_pos
+                        if shot.y_pos < 0:
+                            yposition = shot.y_pos*-1
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
-                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,shot.y_pos,10,10],0)
+                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,yposition,10,10],0)
                         pygame.display.flip()
                         col = pygame.sprite.collide_rect(fire, p2.rect)
 
@@ -136,10 +139,13 @@ while(True):
                     shot = Shell(v_0, angle, p2)
                     col = False
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
-                        shot.Fire(drag, v_wind, gravity, 0.5)
+                       shot.Fire(drag, v_wind, gravity, 0.5)
+                        yposition = shot.y_pos
+                        if shot.y_pos < 0:
+                            yposition = shot.y_pos*-1
                         screen = pygame.display.set_mode(field)
                         show(p1,p2, screen)
-                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,shot.y_pos,10,10],0)
+                        fire = pygame.draw.rect(screen,shot.color,[shot.x_pos,yposition,10,10],0)
                         pygame.display.flip()
                         col = pygame.sprite.collide_rect(fire, p1.rect)
 

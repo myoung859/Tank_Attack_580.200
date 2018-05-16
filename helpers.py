@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun May 13 17:35:38 2018
-
 @author: Mike
 """
 import pygame
@@ -24,8 +23,13 @@ class Tank(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
+        self.ymax = y_dim
         self.rect.center = (pos_x, y_dim-63)
         self.posx = pos_x
+        if player == 1:
+            self.color = [255,0,0]
+        elif player == 2:
+            self.color = [0,255,0]           
         self.posy = y_dim-63
         self.player = player
         self.x_max = x_dim
@@ -61,6 +65,7 @@ class Turret(pygame.sprite.Sprite):
         self.associated = associated
         self.player = getattr(self.associated, 'player')
         self.image = pygame.Surface([24,24])
+        self.color = getattr(self.associated, 'color')
         pygame.draw.circle(self.image, getattr(self.associated, 'color'), (12, 12),6)
         self.rect = self.image.get_rect()
         self.rect.center = (self.associated.rect.centerx, self.associated.rect.centery - 6)
@@ -70,14 +75,16 @@ class Turret(pygame.sprite.Sprite):
 class Shell(pygame.sprite.Sprite):
     def __init__(self, v_0, angle, Tank):
         super().__init__()
-        self.image = pygame.Surface([100, 100])
-        self.image.fill([0, 255, 0])
+        self.image = pygame.Surface([10, 10])
+        self.image.fill([255, 0, 255])
         self.rect = self.image.get_rect()
         self.Tank = Tank
         self.rect.center = (self.Tank.rect.centerx, self.Tank.rect.centery - 6)        
         self.player = getattr(self.Tank, 'player')
         self.v_x = cos(radians(angle)) * v_0
         self.v_y = sin(radians(angle)) * v_0
+        print(self.v_x)
+        print(self.v_y)
         self.mass = 10
         self.x_pos=self.Tank.posx
         self.y_pos=self.Tank.posy
@@ -86,8 +93,12 @@ class Shell(pygame.sprite.Sprite):
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
+        print(self.v_x)
+        print(self.v_y)
         self.x_pos=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
+        print(self.x_pos)
+        print(self.x_pos)
         return self.rect.move(self.x_pos,self.y_pos)
         #dx = int((self.v_x * dt*2.5))
         #dy = int((self.v_y * dt*2.5))
@@ -99,11 +110,13 @@ class Barrel(pygame.sprite.Sprite):
     def __init__(self, Turret):
         super().__init__()
         self.image = pygame.Surface([20, 6])
+        self.Turret = Turret
+        self.Tank = Turret.associated
         self.image.fill(self.Turret.color)
         self.rect = self.image.get_rect()
-        self.rect.left = (self.Turret.rect.centerx, self.Tank.centery)
+        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
     def update(self):
-        self.rect.left = (self.Turret.rect.centerx, self.Tank.centery)
+        self.rect.midleft = (self.Turret.rect.centerx, self.Tank.rect.centery)
     def rotate(self, angle):
         w, h = self.image.get_size()
         img2 = pygame.Surface((w*2, h*2), pygame.SRCALPHA)

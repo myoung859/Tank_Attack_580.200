@@ -25,7 +25,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.ymax = y_dim
         self.positx= pos_x
-        self.rect.center = (pos_x, y_dim-63)
+        self.rect.center = (self.positx + 15, y_dim-63)
         self.posx = pos_x+15
         if player == 1:
             self.color = [255,0,0]

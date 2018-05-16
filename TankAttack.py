@@ -2,24 +2,26 @@ import pygame
 import random as rd
 from helpers import Tank
 from helpers import Shell
+from helpers import Turret
+from helpers import Barrel
 import helpers as TA
 
 #Initial parameter setup
 filer=open('options.csv', 'r',newline = '')
-x_dim = 500
-y_dim = 500
-gravity = 9.8
-drag = 5
-wind_max = 10
+x_dim = filer.readline()
+y_dim = filer.readline()
+gravity = filer.readline()
+drag = filer.readline()
+wind_max = filer.readline()
 filer.close()
 
 pygame.init()
-
 pygame.display.set_caption("Tank Attack")
 
 print("Welcome to Tank Attack!")
 
 def show(p1, p2, screen):
+#Sets up tanks on screen
     screen.fill([0,0,156])
     Font = pygame.font.SysFont(None, 14)
     pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
@@ -31,7 +33,7 @@ def show(p1, p2, screen):
     screen.blit(text2, (p2.position()+15,y_dim-50))
     return
 
-def initalized(x_dim):
+def initalized(x_dim): #Used to create semi-random starting positions (i.e. not on top of each other)
     i = int(rd.random()*x_dim)
 
     if i > (x_dim - 50):
@@ -44,7 +46,7 @@ def initalized(x_dim):
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
     start = input("To begin, type (P)lay. To change parameters type (O)ptions.")
-
+	#if options, redo the parameters
 	if start[0].lower() == 'o':
         TA.options_prompt('options.csv',x_dim,y_dim,gravity,drag, wind_max)
         filer=open('options.csv', 'r',newline = '')
@@ -60,9 +62,13 @@ while(True):
         field = [x_dim, y_dim]
         ip1 = initalized(x_dim)
         ip2 = initalized(x_dim)
-
+#Adds in the players
         p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
         p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+        turP1 = Turret(p1)
+        turP2 = Turret(p2)
+        barP1 = Barrel(turP1)
+        barP2 = Barrel(turP2)
         
         pygame.init()
         b=rd.random()
@@ -85,17 +91,21 @@ while(True):
             print('The wind is blowing %.2f mph to the left.'%windy)
         
         while col == False:
+	#Checks for window closing, then updates display
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                     pygame.quit()
                     break
             screen = pygame.display.set_mode(field)
+            screen.blit(barP1.image,(p2.position(),y_dim-75))
+            screen.blit(barP2.image,(p2.position(),y_dim-75))
             show(p1,p2, screen)
             pygame.display.flip()
-            
+			#Prompts the user until they select a mode
 	    	opt = 'IFYOUREADTHISGIVEUSANA'
             while (not (opt[0].lower() in ['f','m','q'])):
+                print(opt[0])
                 print("If you want to fire a shell from your tank, input (F)ire.")
                 print("If you want to move your tank up to 50 meters, input (M)ove.")
                 print("To quit, input (Q)uit")
@@ -105,11 +115,13 @@ while(True):
                 pygame.display.quit()
                 pygame.quit()
                 break
-
+#Sets up shell spawning
             if (opt[0].lower() == 'f'):
                 v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
                 pygame.display.flip()
+                barP1.rotate(angle)
+				#Fires shell, then checks after each iteration fot outofbounds/hit
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:
@@ -125,7 +137,7 @@ while(True):
                             screen.blit(pygame.image.load('dead.png'), (p2.position(),y_dim-85))
                         pygame.display.flip()
 
-                elif p == 2:
+                elif p == 2: #...and does the same if its player 2's turn
                     shot = Shell(v_0, angle, p2)
                     col = False
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:
@@ -148,13 +160,17 @@ while(True):
 
             elif (opt[0].lower() == 'm'):
                 if p == 1:
-                    p1.move()
+                    p1.move() #defined in helpers.py
                 elif p == 2:
                     p2.move()
 
                 screen = pygame.display.set_mode(field)
+                screen.blit(barP1.image,(p2.position(),y_dim-75))
+                screen.blit(barP2.image,(p2.position(),y_dim-75))
                 show(p1,p2, screen)
                 pygame.display.flip()
+				
+			#Switches player and recalculates wind	
             if p == 1:
                 p = 2
             elif p == 2:

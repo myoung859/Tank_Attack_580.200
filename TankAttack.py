@@ -124,7 +124,7 @@ while(True):
                 barp1.rotate(angle)
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
-                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:
                        shot.Fire(drag, v_wind, gravity, 0.5)
                         yposition = shot.y_pos
                         if shot.y_pos < 0:
@@ -138,7 +138,7 @@ while(True):
                 elif p == 2:
                     shot = Shell(v_0, angle, p2)
                     col = False
-                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max and col==False:
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:
                        shot.Fire(drag, v_wind, gravity, 0.5)
                         yposition = shot.y_pos
                         if shot.y_pos < 0:

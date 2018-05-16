@@ -75,36 +75,28 @@ class Turret(pygame.sprite.Sprite):
 class Shell(pygame.sprite.Sprite):
     def __init__(self, v_0, angle, Tank):
         super().__init__()
-        self.image = pygame.Surface([10, 10])
-        self.image.fill([255, 0, 255])
+        self.image = pygame.image.load('bullet.png')
+        self.color = [255,0,255]
         self.rect = self.image.get_rect()
         self.Tank = Tank
         self.rect.center = (self.Tank.rect.centerx, self.Tank.rect.centery - 6)        
         self.player = getattr(self.Tank, 'player')
         self.v_x = cos(radians(angle)) * v_0
         self.v_y = sin(radians(angle)) * v_0
-        print(self.v_x)
-        print(self.v_y)
         self.mass = 10
         self.x_pos=self.Tank.posx
         self.y_pos=self.Tank.posy
+        print(self.x_pos)
+        print(self.y_pos)
         
     def Fire(self,drag,v_wind, gravity,dt):
         #Calculates real-time change in velocity, then moves the shell that much
         self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
-        print(self.v_x)
-        print(self.v_y)
         self.x_pos=self.x_pos+dt*self.v_x
         self.y_pos=self.y_pos+dt*self.v_y
         print(self.x_pos)
-        print(self.x_pos)
-        return self.rect.move(self.x_pos,self.y_pos)
-        #dx = int((self.v_x * dt*2.5))
-        #dy = int((self.v_y * dt*2.5))
-        #print(dx)
-        #print(dy)
-        #return self.rect.move(dx,dy)
+        print(self.y_pos)
         
 class Barrel(pygame.sprite.Sprite):
     def __init__(self, Turret):

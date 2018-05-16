@@ -58,8 +58,8 @@ while(True):
 
     if start[0].lower() == 'p':
         field = [x_dim, y_dim]
-        ip1 = initalized(x_dim)
-        ip2 = initalized(x_dim)
+        ip1 = rd.randint(50,x_dim - 50)
+        ip2 = rd.randint(50,x_dim - 50)
 #Adds in the players
         p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
         p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')

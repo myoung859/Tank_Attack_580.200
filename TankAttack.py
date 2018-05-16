@@ -91,8 +91,6 @@ while(True):
                     pygame.quit()
                     break
             screen = pygame.display.set_mode(field)
-            screen.blit(barp1.image,(p2.position(),y_dim-75))
-            screen.blit(barp2.image,(p2.position(),y_dim-75))
             show(p1,p2, screen)
             pygame.display.flip()
             
@@ -113,7 +111,6 @@ while(True):
                 v_0 = float(input("Input the initial velocity: "))
                 angle = float(input("Input the angle of your shot (degrees): "))
                 pygame.display.flip()
-                barp1.rotate(angle)
                 if p == 1:
                     shot = Shell(v_0, angle, p1)
                     while shot.y_pos > 0 and shot.x_pos > 0 and shot.y_pos > -1*(y_dim-50) and shot.x_pos < shot.Tank.x_max and col==False:

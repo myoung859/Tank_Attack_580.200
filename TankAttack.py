@@ -157,8 +157,6 @@ while(True):
                     p2.move()
 
                 screen = pygame.display.set_mode(field)
-                screen.blit(barp1.image,(p2.position(),y_dim-75))
-                screen.blit(barp2.image,(p2.position(),y_dim-75))
                 show(p1,p2, screen)
                 pygame.display.flip()
             if p == 1:

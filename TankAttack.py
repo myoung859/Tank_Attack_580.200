@@ -1,11 +1,13 @@
 import pygame
 import random as rd
 from helpers import Tank
+from helpers import Shell
+from helpers import Turret
 
 #Initial parameter setup
 filer=open('options.csv', 'r',newline = '')
-x_dim = int(filer.readline())
-y_dim = int(filer.readline())
+x_dim = 500
+y_dim = 500
 gravity = float(filer.readline())
 drag = float(filer.readline())
 wind_max = float(filer.readline())
@@ -18,8 +20,7 @@ pygame.display.set_caption("Tank Attack")
 
 print("Welcome to Tank Attack!")
 
-def show(p1, p2):
-    screen = pygame.display.set_mode(field)
+def show(p1, p2, screen):
     screen.fill([0,0,156])
     Font = pygame.font.SysFont(None, 14)
     pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
@@ -29,11 +30,19 @@ def show(p1, p2):
     text2 = Font.render('P2', True, (0, 255, 0), None)
     screen.blit(p2.showtank(), (p2.position(),y_dim-85))
     screen.blit(text2, (p2.position()+15,y_dim-50))
-    pygame.display.flip()
     return
 
-def hit():
-    return False
+def turret(angle, p1, p2, p):
+    screen.fill([0,0,156])
+    Font = pygame.font.SysFont(None, 14)
+    pygame.draw.rect(screen, [0,56,0],(0,y_dim-50,x_dim,y_dim),0)
+    screen.blit(p1.showtank(), (p1.position(),y_dim-85))
+    text = Font.render('P1', True, (255, 0, 0), None)
+    screen.blit(text, (p1.position()+15,y_dim-50))
+    text2 = Font.render('P2', True, (0, 255, 0), None)
+    screen.blit(p2.showtank(), (p2.position(),y_dim-85))
+    screen.blit(text2, (p2.position()+15,y_dim-50))
+    return
 
 def initalized(x_dim):
     i = int(rd.random()*x_dim)
@@ -44,51 +53,63 @@ def initalized(x_dim):
         i = i + 50
     return i
 
-def fire():
-    return
-
 ip1 = initalized(x_dim)
 ip2 = initalized(x_dim)
 
-p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png', gravity, wind_max, drag)
-p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png', gravity, wind_max, drag)
+p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
+p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
+
+pygame.init()
 
 #Repeatedly prompts the user until they type 'o' or 'p'
 while(True):
-    start = input("To play the games, type P. To get options for parameters type O.")
-    show(p1,p2)
+    start = input("To begin, type play. To change parameters type options.")
+    screen = pygame.display.set_mode(field)
+    show(p1,p2, screen)
     pygame.display.flip()
 
     if start[-1].lower() == 'p':
         p = 1
-        show(p1,p2)
+        screen = pygame.display.set_mode(field)
+        show(p1,p2, screen)
         pygame.display.flip()
-        
-        print('Player 1 is red, and Player 2 is green.')
+        z = False
 
-        while hit() == False:
-            show(p1,p2)
+        while z == False:
+            screen = pygame.display.set_mode(field)
+            show(p1,p2, screen)
             pygame.display.flip()
             print("Player " + str(p))
-            print("If you want to fire a shell from your tank, Press F.")
-            print("If you want to move your tank 50 meters back. Press M.")
+            print("If you want to fire a shell from your tank, Press A.")
+            print("If you want to move your tank 50 meters back. Press B.")
             opt = str(input())
 
-            if (opt[-1].lower() == 'f'):
-                v_0 = float(input("Input the initial velocity: "))
-                angle = float(input("Input the angle of your shot: "))
+            if (opt[-1].lower() == 'a'):
+                v_0 = float(input("Input his initial velocity: "))
+                angle = float(input("Input the angle of your shot (degrees): "))
+                pt_P1 = (p1.position(), y_dim-85)
+                pt_P2 = (p2.position(), y_dim-85)
+                pygame.display.flip()
                 if p == 1:
-                    shot = Shell(v_0, angle, p1)
+                    shot = Shell(v_0, angle, p1, wind_max)
+                    while shot.y_pos > 0 and shot.x_pos > 0 and shot.x_pos < shot.Tank.x_max:
+                        shot.Fire(drag, gravity, 1)
+                        screen = pygame.display.set_mode(field)
+                        show(p1,p2, screen)
+                        pygame.draw.rect(screen,[255,255,255],shot,0)
+                        pygame.display.flip()
                 elif p == 2:
-                    shot = Shell(v_0, angle, p2)
-            elif (opt[-1].lower() == 'm'):
+                    shot = Shell(v_0, angle, p2, wind_max, drag, gravity)
+
+            elif (opt[-1].lower() == 'b'):
                 if p == 1:
                     p1.move()
                 elif p == 2:
                     p2.move()
 
-            show(p1,p2)
-            pygame.display.flip()
+                screen = pygame.display.set_mode(field)
+                show(p1,p2, screen)
+                pygame.display.flip()
             if p == 1:
                 p = 2
             elif p == 2:

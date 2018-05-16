@@ -95,7 +95,7 @@ class Shell(pygame.sprite.Sprite):
         #print(dy)
         #return self.rect.move(dx,dy)
         
-   class Barrel(pygame.sprite.Sprite):
+class Barrel(pygame.sprite.Sprite):
     def __init__(self, Turret):
         super().__init__()
         self.image = pygame.Surface([20, 6])

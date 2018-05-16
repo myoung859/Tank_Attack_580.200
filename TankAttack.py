@@ -65,7 +65,10 @@ while(True):
 
         p1 = Tank(ip1, x_dim, y_dim, 1, 'p1tank.png')
         p2 = Tank(ip2, x_dim, y_dim, 2, 'p2tank.png')
-
+        turp1 = Turret(p1)
+        turp2 = Turret(p2)
+        barp1 = Barrel(turp1)
+        barp2 = Barrel(turp2)
         pygame.init()
         b=rd.random()
         windy=b*wind_max

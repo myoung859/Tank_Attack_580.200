@@ -76,6 +76,16 @@ while(True):
         pygame.display.flip()
         z = False
         
+        a=rd.random()
+        b=rd.random()
+        windy=b*wind_max
+        if a<0.5:
+            v_wind=windy
+            print('The wind is blowing %.2f mph to the right.'%windy)
+        else:
+            v_wind=windy*-1
+            print('The wind is blowing %.2f mph to the left.'%windy)
+        
         while z == False:
             screen = pygame.display.set_mode(field)
             show(p1,p2, screen)

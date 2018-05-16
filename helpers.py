@@ -80,5 +80,5 @@ class Shell(pygame.sprite.Sprite):
         self.v_x = self.v_x - ((drag*(self.v_x + v_wind)/self.mass)*dt)
         self.v_y = self.v_y - ((drag*(self.v_y)/self.mass)*dt) - (gravity * dt)
         self.x_pos=self.x_pos+dt*self.v_x
-        self.y_pos=self.y_pos+dt*self.v_y
+        self.y_pos=self.y_pos-dt*self.v_y
         
